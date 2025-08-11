@@ -1,6 +1,6 @@
 # Lab01-Projeto-de-Software
 
-## Histórias de Usuários
+## 📜 Histórias de Usuários 
 
 1. Eu como usuário quero realizar login para acessar funcionalidades do sistema.
 2. Eu como aluno quero efetuar matrícula em disciplinas para cursá-las e continuar o
