@@ -4,7 +4,6 @@ import java.util.List;
 public class Disciplina {
     private String nome;
     private int numCreditos;
-    private int vagasMax;
     private List<Aluno> alunos;
     private Professor professor;
 
@@ -24,14 +23,6 @@ public class Disciplina {
         this.nome = nome; 
     }
 
-    public int getVagasMax() { 
-        return vagasMax; 
-    }
-
-    public void setVagasMax(int vagasMax) { 
-        this.vagasMax = vagasMax; 
-    }
-
     public List<Aluno> getAlunos() { 
         return alunos; 
     }
@@ -47,7 +38,7 @@ public class Disciplina {
     }
 
     /* Implementar na Sprint03 */
-    public int checkTotalAlunos() { 
+    private int checkTotalAlunos() { 
          
     }
 

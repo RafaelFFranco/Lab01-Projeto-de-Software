@@ -38,4 +38,9 @@ public class Curso {
     public void gerarCurriculo() {
 
     }
+
+    /* Implementar na Sprint03 */ 
+    public void alunosCurso(List<Aluno> alunos) {
+
+    }
 }
