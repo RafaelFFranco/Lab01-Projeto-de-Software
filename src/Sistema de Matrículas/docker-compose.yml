@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: SistemaMatriculas
+    restart: always
+    environment:
+      POSTGRES_DB: SistemaMatriculasDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      # Mapeia a porta 5432 do container para a porta 5432 da sua máquina local.
+      - '5432:5432'
