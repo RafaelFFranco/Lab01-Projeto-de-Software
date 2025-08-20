@@ -8,22 +8,20 @@ import java.util.List;
 import model.Disciplina;
 
 @Entity
-@Table(name = "tb_professores")
+@Table(name = "tb_disciplina")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Professor {
+public class Disciplina {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
     private String nome;
-    private String email;
-    private String departamento;
-
-
-    @OneToMany(mappedBy = "professor") 
-    private List<Disciplina> disciplinas;
-
+    private int numCreditos;
+    private Professor professor;
+    
+    @OneToMany(mappedBy = "disciplina") 
+    private List<Aluno> alunos;
 }
