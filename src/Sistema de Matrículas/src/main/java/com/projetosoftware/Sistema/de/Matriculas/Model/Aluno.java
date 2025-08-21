@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.util.List;
 
 @Entity
 @Table(name = "tb_alunos")
@@ -17,6 +17,20 @@ public class Aluno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private Disciplina[4] disciplinasObrigatorias;
-    private Disciplina[2] disciplinasoptativas;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "aluno_disciplinas_obrigatorias",
+        joinColumns = @JoinColumn(name = "aluno_id"),
+        inverseJoinColumns = @JoinColumn(name = "disciplina_id")
+    )
+    private List<Disciplina> disciplinasObrigatorias;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "aluno_disciplinas_optativas",
+        joinColumns = @JoinColumn(name = "aluno_id"),
+        inverseJoinColumns = @JoinColumn(name = "disciplina_id")
+    )
+    private List<Disciplina> disciplinasOptativas;
 }

@@ -41,7 +41,7 @@ public class DisciplinaService {
         return disciplinaRepository.findById(id)
             .map(disciplina -> {
                 disciplina.setNome(disciplinaAtualizado.getNome());
-                disciplina.setNumCredito(disciplinaAtualizado.getNumCredito());
+                disciplina.setNumCreditos(disciplinaAtualizado.getNumCreditos());
                 disciplina.setProfessor(disciplinaAtualizado.getProfessor());
                 return disciplinaRepository.save(disciplina);
             })

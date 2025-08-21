@@ -1,9 +1,6 @@
 package com.projetosoftware.Sistema.de.Matriculas.Controller;
 
-import com.projetosoftware.Sistema.de.Matriculas.Model.Aluno;
-import com.projetosoftware.Sistema.de.Matriculas.Model.Professor;
 import com.projetosoftware.Sistema.de.Matriculas.Model.Disciplina;
-import com.projetosoftware.Sistema.de.Matriculas.Service.ProfessorService;
 import com.projetosoftware.Sistema.de.Matriculas.Service.DisciplinaService;
 
 import org.springframework.http.ResponseEntity;
@@ -15,14 +12,14 @@ public class DisciplinaController {
 
     private DisciplinaService disciplinaService;
 
-    public ProfessorController(ProfessorService professorService) {
-        this.professorService = professorService;
+    public DisciplinaController(DisciplinaService disciplinaService) {
+        this.disciplinaService = disciplinaService;
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody Professor professor) {
+    public ResponseEntity<?> add(@RequestBody Disciplina disciplina) {
         try {
-            return ResponseEntity.ok(professorService.add(professor));
+            return ResponseEntity.ok(disciplinaService.add(disciplina));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -31,7 +28,7 @@ public class DisciplinaController {
     @GetMapping("/getall")
     public ResponseEntity<?> getAll() {
         try {
-            return ResponseEntity.ok(professorService.getAll());
+            return ResponseEntity.ok(disciplinaService.getAll());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -40,7 +37,7 @@ public class DisciplinaController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(professorService.getById(id));
+            return ResponseEntity.ok(disciplinaService.getById(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -49,23 +46,23 @@ public class DisciplinaController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
-            professorService.delete(id);
-            return ResponseEntity.ok("Professor com id: " + id + " deletado com sucesso!");
+            disciplinaService.delete(id);
+            return ResponseEntity.ok("Disciplina com id: " + id + " deletada com sucesso!");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Professor professor) {
-    try {
-        Professor atualizado = professorService.update(id, professor);
-        if (atualizado == null) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Disciplina disciplina) {
+        try {
+            Disciplina atualizada = disciplinaService.update(id, disciplina);
+            if (atualizada == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(atualizada);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(atualizado);
-    } catch (Exception e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
     }
 }
