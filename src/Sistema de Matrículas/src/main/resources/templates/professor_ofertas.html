@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Gerenciar Ofertas - Professor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+    <style>
+        .nav-menu {
+            background: #f5f5f5;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+        .logout-btn {
+            float: right;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background: #ff5252;
+        }
+        .oferta-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .oferta-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .oferta-disciplina {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .oferta-semestre {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .oferta-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .info-item {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border-left: 4px solid #4CAF50;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .info-value {
+            color: #333;
+            margin-top: 0.25rem;
+        }
+        .status-ativa { color: #4CAF50; }
+        .status-inativa { color: #f44336; }
+        .status-cancelada { color: #ff9800; }
+        .empty-message {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            color: #666;
+            border: 2px dashed #ddd;
+        }
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 0.25rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-warning {
+            background: #ff9800;
+            color: white;
+        }
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        .form-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 1px solid #ddd;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .form-group input[type="submit"] {
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            width: auto;
+        }
+        .form-group input[type="submit"]:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-menu">
+        <h2>📋 Gerenciar Ofertas</h2>
+        <div style="float: left;">
+            <a th:href="@{/ui/professor/dashboard}" class="btn btn-secondary">← Voltar ao Dashboard</a>
+        </div>
+        <form th:action="@{/ui/logout}" method="get" style="display: inline;">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
+
+    <div th:if="${professor}" style="background: #e3f2fd; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+        <h3>👨‍🏫 Professor: <span th:text="${professor.nome}">Nome</span></h3>
+        <p><strong>Departamento:</strong> <span th:text="${professor.departamento}">Departamento</span></p>
+    </div>
+
+    <div th:if="${mensagem}" class="success-message">
+        <h4>✅ Sucesso</h4>
+        <p th:text="${mensagem}">Mensagem de sucesso</p>
+    </div>
+
+    <div th:if="${erro}" class="error-message">
+        <h4>❌ Erro</h4>
+        <p th:text="${erro}">Mensagem de erro</p>
+    </div>
+
+    <!-- Formulário para criar nova oferta -->
+    <div class="form-section">
+        <h3>➕ Criar Nova Oferta</h3>
+        <form th:action="@{/ui/professor/criar-oferta}" method="post">
+            <div class="form-group">
+                <label for="disciplinaId">Disciplina:</label>
+                <select id="disciplinaId" name="disciplinaId" required>
+                    <option value="">Selecione uma disciplina</option>
+                    <option th:each="disciplina : ${disciplinas}" 
+                            th:value="${disciplina.id}" 
+                            th:text="${disciplina.nome + ' (' + disciplina.numCreditos + ' créditos)'}">
+                        Nome da Disciplina
+                    </option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="semestre">Semestre:</label>
+                <input type="text" id="semestre" name="semestre" 
+                       placeholder="Ex: 2024.1, 2024.2" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="capacidadeMaxima">Capacidade Máxima (opcional):</label>
+                <input type="number" id="capacidadeMaxima" name="capacidadeMaxima" 
+                       placeholder="Ex: 30" min="1">
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Criar Oferta">
+            </div>
+        </form>
+    </div>
+
+    <div th:if="${ofertas.empty}" class="empty-message">
+        <h3>📋 Nenhuma Oferta Encontrada</h3>
+        <p>Você ainda não possui ofertas de disciplinas criadas.</p>
+        <p>Use o formulário acima para criar sua primeira oferta.</p>
+    </div>
+
+    <div th:if="${!ofertas.empty}">
+        <h3>📋 Ofertas Existentes: <span th:text="${ofertas.size()}">0</span></h3>
+        
+        <div th:each="oferta : ${ofertas}" class="oferta-card">
+            <div class="oferta-header">
+                <span class="oferta-disciplina" th:text="${oferta.disciplina.nome}">Nome da Disciplina</span>
+                <span class="oferta-semestre" th:text="${oferta.semestre}">Semestre</span>
+            </div>
+            
+            <div class="oferta-info">
+                <div class="info-item">
+                    <div class="info-label">Status</div>
+                    <div class="info-value">
+                        <span th:class="${'status-' + oferta.status.name().toLowerCase()}" 
+                              th:text="${oferta.status}">Status</span>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Capacidade</div>
+                    <div class="info-value" th:text="${oferta.capacidadeMaxima != null ? oferta.capacidadeMaxima + ' alunos' : 'Ilimitada'}">Capacidade</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Créditos</div>
+                    <div class="info-value" th:text="${oferta.disciplina.numCreditos + ' créditos'}">0 créditos</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">ID da Oferta</div>
+                    <div class="info-value" th:text="${oferta.id}">ID</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                <form th:action="@{/ui/professor/alterar-status-oferta}" method="post" style="display: inline;">
+                    <input type="hidden" name="ofertaId" th:value="${oferta.id}">
+                    <select name="novoStatus" style="margin-right: 0.5rem; padding: 0.25rem;">
+                        <option th:each="status : ${T(com.projetosoftware.Sistema.de.Matriculas.Model.OfertaDisciplina$StatusOferta).values()}"
+                                th:value="${status}"
+                                th:text="${status}"
+                                th:selected="${status == oferta.status}">
+                            Status
+                        </option>
+                    </select>
+                    <button type="submit" class="btn btn-warning">Alterar Status</button>
+                </form>
+                
+                <a th:href="@{/ui/professor/alunos-matriculados}" class="btn btn-primary">Ver Alunos</a>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center;">
+        <a th:href="@{/ui/professor/dashboard}" class="btn btn-secondary">← Voltar ao Dashboard</a>
+        <a th:href="@{/ui/professor/disciplinas}" class="btn btn-primary">Minhas Disciplinas</a>
+        <a th:href="@{/ui/professor/alunos-matriculados}" class="btn btn-primary">Ver Alunos Matriculados</a>
+    </div>
+</body>
+</html>

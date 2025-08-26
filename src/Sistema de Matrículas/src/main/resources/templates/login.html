@@ -2,29 +2,130 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Login</title>
+    <title>Login - Sistema de Matrículas</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin: 1rem 0;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+        .btn-login {
+            width: 100%;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        .btn-login:hover {
+            background: #45a049;
+        }
+        .mensagem {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .mensagem.sucesso {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .mensagem.erro {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .header h2 {
+            color: #2e7d32;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            color: #666;
+            margin: 0;
+        }
+        .voltar-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .voltar-link a {
+            color: #666;
+            text-decoration: none;
+        }
+        .voltar-link a:hover {
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-<h2>Login</h2>
-<form th:action="@{/ui/login}" method="post">
-    <label>Email
-        <input type="email" name="email" required />
-    </label>
-    <label>Senha
-        <input type="password" name="senha" required />
-    </label>
-    <label>Tipo de usuário
-        <select name="tipo" required>
-            <option value="aluno">Aluno</option>
-            <option value="professor">Professor</option>
-            <option value="secretaria">Secretaria</option>
-        </select>
-    </label>
-    <button type="submit">Entrar</button>
-</form>
-<p th:if="${mensagem}" th:text="${mensagem}"></p>
-<p><a th:href="@{/}">Voltar</a></p>
+    <div class="login-container">
+        <div class="header">
+            <h2>🔐 Login</h2>
+            <p>Sistema de Matrículas Acadêmicas</p>
+        </div>
+
+        <form th:action="@{/ui/login}" method="post">
+            <div class="form-group">
+                <label for="email">📧 Email:</label>
+                <input type="email" id="email" name="email" required placeholder="seu@email.com" />
+            </div>
+            
+            <div class="form-group">
+                <label for="senha">🔒 Senha:</label>
+                <input type="password" id="senha" name="senha" required placeholder="Sua senha" />
+            </div>
+            
+            <div class="form-group">
+                <label for="tipo">👤 Tipo de usuário:</label>
+                <select id="tipo" name="tipo" required>
+                    <option value="">Selecione o tipo</option>
+                    <option value="aluno">🎓 Aluno</option>
+                    <option value="professor">👨‍🏫 Professor</option>
+                    <option value="secretaria">🏢 Secretaria</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn-login">Entrar no Sistema</button>
+        </form>
+
+        <div th:if="${mensagem}" th:class="${mensagem.contains('sucesso') ? 'mensagem sucesso' : 'mensagem erro'}" th:text="${mensagem}"></div>
+
+        <div class="voltar-link">
+            <a th:href="@{/}">← Voltar ao Início</a>
+        </div>
+    </div>
 </body>
 </html>
 

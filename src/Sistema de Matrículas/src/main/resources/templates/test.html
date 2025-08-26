@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Teste do Sistema</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+</head>
+<body>
+    <h1>🧪 Teste do Sistema</h1>
+    
+    <div style="background: #e8f5e8; padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+        <h3>Status: <span th:text="${mensagem}">Status</span></h3>
+        <p><strong>Timestamp:</strong> <span th:text="${timestamp}">Timestamp</span></p>
+        <p><strong>Data/Hora:</strong> <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm:ss')}">Data/Hora</span></p>
+    </div>
+    
+    <div style="margin-top: 2rem;">
+        <a th:href="@{/}" class="btn">Voltar ao Início</a>
+        <a th:href="@{/ui/login}" class="btn">Testar Login</a>
+    </div>
+</body>
+</html>

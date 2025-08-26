@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Teste do Professor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+    <style>
+        .test-section {
+            background: #e8f5e8;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 1px solid #4CAF50;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 0.25rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-primary {
+            background: #2196F3;
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Teste do Professor</h1>
+    
+    <div class="test-section">
+        <h3>✅ <span th:text="${mensagem}">Status</span></h3>
+        <p><strong>Professor:</strong> <span th:text="${professor.nome}">Nome</span></p>
+        <p><strong>Departamento:</strong> <span th:text="${professor.departamento}">Departamento</span></p>
+        <p><strong>Timestamp:</strong> <span th:text="${timestamp}">Timestamp</span></p>
+    </div>
+    
+    <div style="margin-top: 2rem;">
+        <h3>🔗 Testar Funcionalidades:</h3>
+        <a th:href="@{/ui/professor/dashboard}" class="btn btn-primary">Dashboard</a>
+        <a th:href="@{/ui/professor/disciplinas}" class="btn btn-primary">Disciplinas</a>
+        <a th:href="@{/ui/professor/ofertas}" class="btn btn-primary">Ofertas</a>
+        <a th:href="@{/ui/professor/alunos-matriculados}" class="btn btn-primary">Alunos</a>
+    </div>
+    
+    <div style="margin-top: 2rem;">
+        <a th:href="@{/}" class="btn btn-secondary">Voltar ao Início</a>
+        <a th:href="@{/ui/test}" class="btn btn-secondary">Teste Geral</a>
+    </div>
+</body>
+</html>

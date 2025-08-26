@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Minhas Disciplinas - Professor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+    <style>
+        .nav-menu {
+            background: #f5f5f5;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+        .logout-btn {
+            float: right;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background: #ff5252;
+        }
+        .disciplina-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .disciplina-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .disciplina-nome {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2196F3;
+        }
+        .disciplina-creditos {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .disciplina-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .info-item {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border-left: 4px solid #2196F3;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .info-value {
+            color: #333;
+            margin-top: 0.25rem;
+        }
+        .empty-message {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            color: #666;
+            border: 2px dashed #ddd;
+        }
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 0.25rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-primary {
+            background: #2196F3;
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-menu">
+        <h2>📚 Minhas Disciplinas</h2>
+        <div style="float: left;">
+            <a th:href="@{/ui/professor/dashboard}" class="btn btn-secondary">← Voltar ao Dashboard</a>
+        </div>
+        <form th:action="@{/ui/logout}" method="get" style="display: inline;">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
+
+    <div th:if="${professor}" style="background: #e3f2fd; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+        <h3>👨‍🏫 Professor: <span th:text="${professor.nome}">Nome</span></h3>
+        <p><strong>Departamento:</strong> <span th:text="${professor.departamento}">Departamento</span></p>
+        <p><strong>Email:</strong> <span th:text="${professor.email}">Email</span></p>
+    </div>
+
+    <div th:if="${erro}" class="error-message">
+        <h4>❌ Erro</h4>
+        <p th:text="${erro}">Mensagem de erro</p>
+    </div>
+
+    <div th:if="${disciplinas.empty}" class="empty-message">
+        <h3>📚 Nenhuma Disciplina Encontrada</h3>
+        <p>Você ainda não possui disciplinas cadastradas no sistema.</p>
+        <p>Entre em contato com a secretaria para cadastrar suas disciplinas.</p>
+        <a th:href="@{/ui/professor/dashboard}" class="btn btn-primary">Voltar ao Dashboard</a>
+    </div>
+
+    <div th:if="${!disciplinas.empty}">
+        <h3>📚 Disciplinas Cadastradas: <span th:text="${disciplinas.size()}">0</span></h3>
+        
+        <div th:each="disciplina : ${disciplinas}" class="disciplina-card">
+            <div class="disciplina-header">
+                <span class="disciplina-nome" th:text="${disciplina.nome}">Nome da Disciplina</span>
+                <span class="disciplina-creditos" th:text="${disciplina.numCreditos + ' créditos'}">0 créditos</span>
+            </div>
+            
+            <div class="disciplina-info">
+                <div class="info-item">
+                    <div class="info-label">Curso</div>
+                    <div class="info-value" th:text="${disciplina.curso != null ? disciplina.curso.nome : 'Não definido'}">Curso</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Código</div>
+                    <div class="info-value" th:text="${disciplina.id}">ID</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Status</div>
+                    <div class="info-value" style="color: #4CAF50;">Ativa</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                <a th:href="@{/ui/professor/ofertas}" class="btn btn-primary">Ver Ofertas</a>
+                <a th:href="@{/ui/professor/alunos-matriculados}" class="btn btn-secondary">Ver Alunos</a>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center;">
+        <a th:href="@{/ui/professor/dashboard}" class="btn btn-secondary">← Voltar ao Dashboard</a>
+        <a th:href="@{/ui/professor/ofertas}" class="btn btn-primary">Gerenciar Ofertas</a>
+        <a th:href="@{/ui/professor/alunos-matriculados}" class="btn btn-primary">Ver Alunos Matriculados</a>
+    </div>
+</body>
+</html>

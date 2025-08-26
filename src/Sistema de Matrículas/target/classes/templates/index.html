@@ -7,24 +7,98 @@
     <style>
         ul { list-style: none; padding: 0; }
         li { margin: .4rem 0; }
+        .welcome-section {
+            background: #f5f5f5;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .admin-section {
+            background: #e8f5e8;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid #4CAF50;
+        }
+        .admin-section h3 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+        .login-section {
+            background: #fff3e0;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid #ff9800;
+        }
+        .login-section h3 {
+            color: #e65100;
+            margin-top: 0;
+        }
+        .mensagem {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .mensagem.sucesso {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .mensagem.erro {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
     </style>
     </head>
 <body>
-<h1>Sistema de Matrículas</h1>
-<p>Menu de navegação:</p>
-<ul>
-    <li><a th:href="@{/ui/alunos}">Alunos</a></li>
-    <li><a th:href="@{/ui/professores}">Professores</a></li>
-    <li><a th:href="@{/ui/disciplinas}">Disciplinas</a></li>
-    <li><a th:href="@{/ui/login}">Login</a></li>
-    <li><a th:href="@{/ui/curso/novo}">Cadastrar Curso</a></li>
-    <li><a th:href="@{/ui/aluno/novo}">Cadastrar Aluno</a></li>
-    <li><a th:href="@{/ui/professor/novo}">Cadastrar Professor</a></li>
-    <li><a th:href="@{/ui/disciplina/nova}">Cadastrar Disciplina</a></li>
-    <li><a th:href="@{/ui/oferta/nova}">Criar Oferta</a></li>
-    <li><a th:href="@{/ui/periodo/novo}">Abrir Período</a></li>
-    <li><a th:href="@{/ui/matricula}">Matrícula</a></li>
- </ul>
+<div class="welcome-section">
+    <h1>🎓 Sistema de Matrículas</h1>
+    <p>Bem-vindo ao sistema de gerenciamento de matrículas acadêmicas</p>
+</div>
+
+<div th:if="${mensagem}" class="mensagem" th:classappend="${mensagem.contains('sucesso') ? 'sucesso' : 'erro'}" th:text="${mensagem}"></div>
+
+<div class="login-section">
+    <h3>🔐 Acesso ao Sistema</h3>
+    <p>Faça login para acessar as funcionalidades específicas do seu perfil:</p>
+    <ul>
+        <li><a th:href="@{/ui/login}">Login (Aluno/Professor/Secretaria)</a></li>
+    </ul>
+</div>
+
+<div class="admin-section">
+    <h3>⚙️ Funcionalidades Administrativas</h3>
+    <p>Menu de navegação para administradores:</p>
+    <ul>
+        <li><a th:href="@{/ui/alunos}">👥 Gerenciar Alunos</a></li>
+        <li><a th:href="@{/ui/professores}">👨‍🏫 Gerenciar Professores</a></li>
+        <li><a th:href="@{/ui/disciplinas}">📚 Gerenciar Disciplinas</a></li>
+        <li><a th:href="@{/ui/curso/novo}">🎯 Cadastrar Curso</a></li>
+        <li><a th:href="@{/ui/aluno/novo}">➕ Cadastrar Aluno</a></li>
+        <li><a th:href="@{/ui/professor/novo}">➕ Cadastrar Professor</a></li>
+        <li><a th:href="@{/ui/disciplina/nova}">➕ Cadastrar Disciplina</a></li>
+        <li><a th:href="@{/ui/oferta/nova}">📋 Criar Oferta</a></li>
+        <li><a th:href="@{/ui/periodo/novo}">📅 Abrir Período</a></li>
+        <li><a th:href="@{/ui/matricula}">📝 Gerenciar Matrículas</a></li>
+    </ul>
+</div>
+
+<div class="admin-section">
+    <h3>🧪 Testes do Sistema</h3>
+    <p>Links para testar o funcionamento:</p>
+    <ul>
+        <li><a th:href="@{/ui/test}">🔍 Teste Geral do Sistema</a></li>
+        <li><a th:href="@{/ui/test-db}">🗄️ Teste do Banco de Dados</a></li>
+    </ul>
+</div>
+
+<div style="margin-top: 2rem; text-align: center; color: #666;">
+    <p><em>Sistema desenvolvido para o Laboratório de Projeto de Software</em></p>
+</div>
 </body>
 </html>
 

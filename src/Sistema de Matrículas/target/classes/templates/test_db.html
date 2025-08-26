@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Teste do Banco de Dados</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+    <style>
+        .status-ok {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .status-erro {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .info-box {
+            background: #e8f5e8;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>🗄️ Teste do Banco de Dados</h1>
+    
+    <div th:if="${status == 'OK'}" class="status-ok">
+        <h3>✅ <span th:text="${mensagem}">Status</span></h3>
+    </div>
+    
+    <div th:if="${status == 'ERRO'}" class="status-erro">
+        <h3>❌ <span th:text="${mensagem}">Status</span></h3>
+        <p><strong>Erro:</strong> <span th:text="${erro}">Erro</span></p>
+    </div>
+    
+    <div class="info-box">
+        <h3>📊 Estatísticas do Banco</h3>
+        <p><strong>Alunos cadastrados:</strong> <span th:text="${numAlunos}">0</span></p>
+        <p><strong>Professores cadastrados:</strong> <span th:text="${numProfessores}">0</span></p>
+        <p><strong>Disciplinas cadastradas:</strong> <span th:text="${numDisciplinas}">0</span></p>
+    </div>
+    
+    <div style="margin-top: 2rem;">
+        <a th:href="@{/}" class="btn">Voltar ao Início</a>
+        <a th:href="@{/ui/test}" class="btn">Teste Geral</a>
+        <a th:href="@{/ui/login}" class="btn">Testar Login</a>
+    </div>
+</body>
+</html>

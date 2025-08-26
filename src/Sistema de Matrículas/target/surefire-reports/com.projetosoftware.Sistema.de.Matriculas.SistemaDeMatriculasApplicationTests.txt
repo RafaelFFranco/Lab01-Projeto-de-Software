@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.projetosoftware.Sistema.de.Matriculas.SistemaDeMatriculasApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.87 s -- in com.projetosoftware.Sistema.de.Matriculas.SistemaDeMatriculasApplicationTests
