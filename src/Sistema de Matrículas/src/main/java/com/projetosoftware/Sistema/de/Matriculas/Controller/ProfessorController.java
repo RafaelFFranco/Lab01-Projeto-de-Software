@@ -1,19 +1,32 @@
 package com.projetosoftware.Sistema.de.Matriculas.Controller;
 
 import com.projetosoftware.Sistema.de.Matriculas.Model.Aluno;
+import com.projetosoftware.Sistema.de.Matriculas.Model.Matricula;
 import com.projetosoftware.Sistema.de.Matriculas.Model.Professor;
+import com.projetosoftware.Sistema.de.Matriculas.Model.OfertaDisciplina;
+import com.projetosoftware.Sistema.de.Matriculas.Repository.MatriculaRepository;
 import com.projetosoftware.Sistema.de.Matriculas.Service.ProfessorService;
+import com.projetosoftware.Sistema.de.Matriculas.Repository.OfertaDisciplinaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/professor")
 public class ProfessorController {
 
     private ProfessorService professorService;
+    private MatriculaRepository matriculaRepository;
+    private OfertaDisciplinaRepository ofertaDisciplinaRepository;
 
-    public ProfessorController(ProfessorService professorService) {
+    public ProfessorController(ProfessorService professorService,
+                               MatriculaRepository matriculaRepository,
+                               OfertaDisciplinaRepository ofertaDisciplinaRepository) {
         this.professorService = professorService;
+        this.matriculaRepository = matriculaRepository;
+        this.ofertaDisciplinaRepository = ofertaDisciplinaRepository;
     }
 
     @PostMapping("/add")
@@ -66,35 +79,36 @@ public class ProfessorController {
     }
     }
 
-   /* @GetMapping("/{idProfessor}/disciplina/{idDisciplina}/alunos")
-    public ResponseEntity<?> getAlunosByDisciplina(
-        @PathVariable Long idProfessor,
-        @PathVariable Long idDisciplina) {
-    try {
-        Professor professor = professorService.getById(idProfessor);
-        if (professor == null) {
-            return ResponseEntity.notFound().build();
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String senha) {
+        try {
+            boolean ok = professorService.autenticar(email, senha);
+            return ok ? ResponseEntity.ok("Login bem-sucedido") : ResponseEntity.status(401).body("Credenciais inválidas");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        return professor.getDisciplinas().stream()
-                .filter(disciplina -> disciplina.getId().equals(idDisciplina))
-                .findFirst()
-                .map(disciplina -> {
-                    List<Aluno> alunos = new java.util.ArrayList<>();
-                    if (disciplina.getAlunosObrigatorios() != null) {
-                        alunos.addAll(disciplina.getAlunosObrigatorios());
-                    }
-                    if (disciplina.getAlunosOptativos() != null) {
-                        alunos.addAll(disciplina.getAlunosOptativos());
-                    }
-                    return ResponseEntity.ok(alunos);
-                })
-                .orElse(ResponseEntity.badRequest().body("Disciplina não pertence a este professor"));
-
-    } catch (Exception e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
     }
+
+    @GetMapping("/{professorId}/oferta/{ofertaId}/alunos")
+    public ResponseEntity<?> listarAlunosPorOferta(@PathVariable Long professorId, @PathVariable Long ofertaId) {
+        try {
+            Professor professor = professorService.getById(professorId);
+            if (professor == null) return ResponseEntity.notFound().build();
+
+            OfertaDisciplina oferta = ofertaDisciplinaRepository.findById(ofertaId)
+                    .orElse(null);
+            if (oferta == null || oferta.getDisciplina() == null || oferta.getDisciplina().getProfessor() == null ||
+                !oferta.getDisciplina().getProfessor().getId().equals(professor.getId())) {
+                return ResponseEntity.badRequest().body("Oferta não pertence a este professor");
+            }
+
+            List<Aluno> alunos = matriculaRepository.findByOferta(oferta).stream()
+                    .filter(m -> m.getStatus() == Matricula.Status.ATIVA)
+                    .map(Matricula::getAluno)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(alunos);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-    //Remover comentario quando for incluido a classe Disciplina
-    */
 }

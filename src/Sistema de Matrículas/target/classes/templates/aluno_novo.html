@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Novo Aluno</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+</head>
+<body>
+<h2>Cadastrar Aluno</h2>
+<form th:action="@{/ui/aluno/novo}" method="post">
+    <label>Nome <input type="text" name="nome" required /></label>
+    <label>Email <input type="email" name="email" required /></label>
+    <label>Senha <input type="password" name="senha" required /></label>
+    <button type="submit">Salvar</button>
+ </form>
+ <p th:if="${mensagem}" th:text="${mensagem}"></p>
+ <p><a th:href="@{/}">Voltar</a></p>
+</body>
+</html>
+
+

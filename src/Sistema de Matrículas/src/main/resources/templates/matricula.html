@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Matrícula</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+</head>
+<body>
+<h2>Registrar Matrícula</h2>
+<form th:action="@{/ui/matricula/registrar}" method="post">
+    <label>ID Aluno <input type="number" name="alunoId" min="1" required /></label>
+    <label>ID Oferta <input type="number" name="ofertaId" min="1" required /></label>
+    <label>Tipo
+        <select name="tipo">
+            <option value="OBRIGATORIA">OBRIGATORIA</option>
+            <option value="OPTATIVA">OPTATIVA</option>
+        </select>
+    </label>
+    <button type="submit">Registrar</button>
+ </form>
+
+<h2>Cancelar Matrícula</h2>
+<form th:action="@{/ui/matricula/cancelar}" method="post">
+    <label>ID Matrícula <input type="number" name="matriculaId" min="1" required /></label>
+    <button type="submit">Cancelar</button>
+ </form>
+
+ <p th:if="${mensagem}" th:text="${mensagem}"></p>
+ <p><a th:href="@{/}">Voltar</a></p>
+</body>
+</html>
+
+

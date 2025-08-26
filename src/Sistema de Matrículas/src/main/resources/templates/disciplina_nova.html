@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Nova Disciplina</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+</head>
+<body>
+<h2>Cadastrar Disciplina</h2>
+<form th:action="@{/ui/disciplina/nova}" method="post">
+    <label>Nome <input type="text" name="nome" required /></label>
+    <label>Créditos <input type="number" name="numCreditos" min="1" required /></label>
+    <label>Curso
+        <select name="cursoId">
+            <option th:each="c : ${cursos}" th:value="${c.id}" th:text="${c.nome}"></option>
+        </select>
+    </label>
+    <label>Professor
+        <select name="professorId">
+            <option th:each="p : ${professores}" th:value="${p.id}" th:text="${p.nome}"></option>
+        </select>
+    </label>
+    <button type="submit">Salvar</button>
+ </form>
+ <p th:if="${mensagem}" th:text="${mensagem}"></p>
+ <p><a th:href="@{/}">Voltar</a></p>
+</body>
+</html>
+
+

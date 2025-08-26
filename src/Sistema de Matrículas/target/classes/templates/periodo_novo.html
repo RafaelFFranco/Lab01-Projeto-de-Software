@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Novo Período</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+</head>
+<body>
+<h2>Abrir Período de Matrículas</h2>
+<form th:action="@{/ui/periodo/novo}" method="post">
+    <label>Semestre <input type="text" name="semestre" placeholder="2025.1" required /></label>
+    <button type="submit">Salvar</button>
+ </form>
+ <p th:if="${mensagem}" th:text="${mensagem}"></p>
+ <p><a th:href="@{/}">Voltar</a></p>
+</body>
+</html>
+
+

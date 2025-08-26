@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Nova Oferta</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+</head>
+<body>
+<h2>Criar Oferta de Disciplina</h2>
+<form th:action="@{/ui/oferta/nova}" method="post">
+    <label>Disciplina
+        <select name="disciplinaId">
+            <option th:each="d : ${disciplinas}" th:value="${d.id}" th:text="${d.nome}"></option>
+        </select>
+    </label>
+    <label>Semestre <input type="text" name="semestre" placeholder="2025.1" required /></label>
+    <label>Capacidade Máxima <input type="number" name="capacidadeMaxima" min="1" /></label>
+    <button type="submit">Criar</button>
+ </form>
+ <p th:if="${mensagem}" th:text="${mensagem}"></p>
+ <p><a th:href="@{/}">Voltar</a></p>
+</body>
+</html>
+
+

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+</head>
+<body>
+<h2>Login</h2>
+<form th:action="@{/ui/login}" method="post">
+    <label>Email
+        <input type="email" name="email" required />
+    </label>
+    <label>Senha
+        <input type="password" name="senha" required />
+    </label>
+    <label>Tipo de usuário
+        <select name="tipo" required>
+            <option value="aluno">Aluno</option>
+            <option value="professor">Professor</option>
+            <option value="secretaria">Secretaria</option>
+        </select>
+    </label>
+    <button type="submit">Entrar</button>
+</form>
+<p th:if="${mensagem}" th:text="${mensagem}"></p>
+<p><a th:href="@{/}">Voltar</a></p>
+</body>
+</html>
+
+

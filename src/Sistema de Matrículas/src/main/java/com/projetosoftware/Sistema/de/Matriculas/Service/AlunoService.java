@@ -25,6 +25,10 @@ public class AlunoService {
         return aluno.isPresent() ? aluno.get() : null;
     }
 
+    public Optional<Aluno> getByEmail(String email) {
+        return alunoRepository.findByEmail(email);
+    }
+
     public Aluno add(Aluno aluno) {
         return alunoRepository.save(aluno);
     }
@@ -34,5 +38,11 @@ public class AlunoService {
         if (aluno.isPresent()) {
             alunoRepository.delete(aluno.get());
         }
+    }
+
+    public boolean autenticar(String email, String senha) {
+        return alunoRepository.findByEmail(email)
+                .map(a -> a.getSenha() != null && a.getSenha().equals(senha))
+                .orElse(false);
     }
 }

@@ -25,6 +25,10 @@ public class ProfessorService {
         return professor.isPresent() ? professor.get() : null;
     }
 
+    public Optional<Professor> getByEmail(String email) {
+        return professorRepository.findByEmail(email);
+    }
+
     public Professor add(Professor professor) {
         return professorRepository.save(professor);
     }
@@ -42,8 +46,15 @@ public class ProfessorService {
                 professor.setNome(professorAtualizado.getNome());
                 professor.setEmail(professorAtualizado.getEmail());
                 professor.setDepartamento(professorAtualizado.getDepartamento());
+                professor.setSenha(professorAtualizado.getSenha());
                 return professorRepository.save(professor);
             })
             .orElse(null);
+    }
+
+    public boolean autenticar(String email, String senha) {
+        return professorRepository.findByEmail(email)
+                .map(p -> p.getSenha() != null && p.getSenha().equals(senha))
+                .orElse(false);
     }
 }

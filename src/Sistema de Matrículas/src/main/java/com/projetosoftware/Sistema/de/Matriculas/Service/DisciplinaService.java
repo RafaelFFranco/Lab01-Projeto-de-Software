@@ -1,8 +1,7 @@
 package com.projetosoftware.Sistema.de.Matriculas.Service;
 
-import com.projetosoftware.Sistema.de.Matriculas.Model.Disciplina;
-import com.projetosoftware.Sistema.de.Matriculas.Model.Professor;
-import com.projetosoftware.Sistema.de.Matriculas.Repository.DisciplinaRepository;
+import com.projetosoftware.Sistema.de.Matriculas.Model.*;
+import com.projetosoftware.Sistema.de.Matriculas.Repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +11,12 @@ import java.util.Optional;
 public class DisciplinaService {
 
     private DisciplinaRepository disciplinaRepository;
+    private OfertaDisciplinaRepository ofertaDisciplinaRepository;
 
-    public DisciplinaService(DisciplinaRepository disciplinaRepository) {
+    public DisciplinaService(DisciplinaRepository disciplinaRepository,
+                             OfertaDisciplinaRepository ofertaDisciplinaRepository) {
         this.disciplinaRepository = disciplinaRepository;
+        this.ofertaDisciplinaRepository = ofertaDisciplinaRepository;
     }
 
     public List<Disciplina> getAll() {
@@ -43,8 +45,30 @@ public class DisciplinaService {
                 disciplina.setNome(disciplinaAtualizado.getNome());
                 disciplina.setNumCreditos(disciplinaAtualizado.getNumCreditos());
                 disciplina.setProfessor(disciplinaAtualizado.getProfessor());
+                disciplina.setCurso(disciplinaAtualizado.getCurso());
                 return disciplinaRepository.save(disciplina);
             })
             .orElse(null);
+    }
+
+    public OfertaDisciplina criarOferta(Long disciplinaId, String semestre, Integer capacidadeMaxima) {
+        Disciplina disciplina = getById(disciplinaId);
+        if (disciplina == null) return null;
+        OfertaDisciplina oferta = new OfertaDisciplina();
+        oferta.setDisciplina(disciplina);
+        oferta.setSemestre(semestre);
+        if (capacidadeMaxima != null) oferta.setCapacidadeMaxima(capacidadeMaxima);
+        oferta.setStatus(OfertaDisciplina.StatusOferta.PENDENTE);
+        return ofertaDisciplinaRepository.save(oferta);
+    }
+
+    public List<OfertaDisciplina> listarOfertasPorSemestre(String semestre) {
+        return ofertaDisciplinaRepository.findBySemestre(semestre);
+    }
+
+    public OfertaDisciplina atualizarStatusOferta(Long ofertaId, OfertaDisciplina.StatusOferta status) {
+        return ofertaDisciplinaRepository.findById(ofertaId)
+                .map(o -> { o.setStatus(status); return ofertaDisciplinaRepository.save(o); })
+                .orElse(null);
     }
 }

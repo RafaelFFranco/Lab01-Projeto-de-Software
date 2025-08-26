@@ -20,7 +20,7 @@ public class Professor {
     private String nome;
     private String email;
     private String departamento;
-
+    private String senha;
 
     @OneToMany(mappedBy = "professor") 
     private List<Disciplina> disciplinas;

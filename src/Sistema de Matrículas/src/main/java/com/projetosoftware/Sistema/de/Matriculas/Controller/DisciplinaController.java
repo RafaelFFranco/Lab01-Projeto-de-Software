@@ -1,10 +1,13 @@
 package com.projetosoftware.Sistema.de.Matriculas.Controller;
 
 import com.projetosoftware.Sistema.de.Matriculas.Model.Disciplina;
+import com.projetosoftware.Sistema.de.Matriculas.Model.OfertaDisciplina;
 import com.projetosoftware.Sistema.de.Matriculas.Service.DisciplinaService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/disciplina")
@@ -61,6 +64,29 @@ public class DisciplinaController {
                 return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok(atualizada);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}/oferta")
+    public ResponseEntity<?> criarOferta(@PathVariable Long id,
+                                         @RequestParam String semestre,
+                                         @RequestParam(required = false) Integer capacidadeMaxima) {
+        try {
+            OfertaDisciplina oferta = disciplinaService.criarOferta(id, semestre, capacidadeMaxima);
+            if (oferta == null) return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(oferta);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/ofertas")
+    public ResponseEntity<?> listarOfertas(@RequestParam String semestre) {
+        try {
+            List<OfertaDisciplina> ofertas = disciplinaService.listarOfertasPorSemestre(semestre);
+            return ResponseEntity.ok(ofertas);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

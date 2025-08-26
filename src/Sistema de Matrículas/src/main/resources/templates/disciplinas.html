@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Disciplinas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" />
+</head>
+<body>
+<h2>Disciplinas</h2>
+<table>
+    <thead>
+    <tr><th>ID</th><th>Nome</th><th>Créditos</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="d : ${disciplinas}">
+        <td th:text="${d.id}"></td>
+        <td th:text="${d.nome}"></td>
+        <td th:text="${d.numCreditos}"></td>
+    </tr>
+    </tbody>
+ </table>
+ <p><a th:href="@{/}">Voltar</a></p>
+</body>
+</html>
+
+
