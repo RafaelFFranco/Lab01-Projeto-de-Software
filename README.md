@@ -16,24 +16,20 @@ saberem quais estão disponíveis.</li>
 
 
 ## Diagrama de Casos de Uso
-
-
+<br>
 <img src="Artefatos/Diagrama-De-Casos-de-Uso.jpeg"></img>
 
 
 ## Diagrama de Pacotes
-
-
+<br>
 <img src="Artefatos/Diagrama-De-Pacotes.jpeg"></img>
 
 
 ## Diagrama de Classes
-
-
+<br>
 <img src="Artefatos/Diagrama-de-Classes.png"></img>
 
 
 ## Funcionamento do Sistema
-
-
+<br>
 <img src="Artefatos/Video-Do-Sistema.gif"></img>
